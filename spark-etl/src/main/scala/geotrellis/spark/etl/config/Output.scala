@@ -19,9 +19,9 @@ package geotrellis.spark.etl.config
 import geotrellis.proj4.CRS
 import geotrellis.raster.resample.PointResampleMethod
 import geotrellis.raster.{CellSize, CellType, RasterExtent, TileLayout}
-import geotrellis.tiling._
 import geotrellis.spark.io.index.{HilbertKeyIndexMethod, KeyIndexMethod, RowMajorKeyIndexMethod, ZCurveKeyIndexMethod}
 import geotrellis.spark.pyramid.Pyramid
+import geotrellis.spark.tiling._
 import geotrellis.vector.Extent
 import org.apache.spark.HashPartitioner
 
@@ -62,7 +62,7 @@ case class Output(
 
   def getLayoutDefinition = (layoutExtent, cellSize, tileLayout) match {
     case (Some(le), Some(cs), Some(tl)) => throw new Exception("Can't specify both cell size and tile layout in ETL config")
-    case (Some(le), Some(cs), _) => LayoutDefinition(RasterExtent(le, cs).toGridType[Long], tileSize)
+    case (Some(le), Some(cs), _) => LayoutDefinition(RasterExtent(le, cs), tileSize)
     case (Some(le), _, Some(tl)) => LayoutDefinition(le, tl)
     case _ => throw new Exception("unsupported layout definition")
   }
